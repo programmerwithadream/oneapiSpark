@@ -472,6 +472,10 @@ trait InputRDDCodegen extends CodegenSupport {
       null
     }
 
+    System.loadLibrary("NativeHelloWorld");
+    val nhw = new org.apache.spark.jni.NativeHelloWorld();
+    nhw.nativeMethod(5);
+
     val updateNumOutputRowsMetrics = if (metrics.contains("numOutputRows")) {
       val numOutputRows = metricTerm(ctx, "numOutputRows")
       s"$numOutputRows.add(1);"
