@@ -481,11 +481,12 @@ trait InputRDDCodegen extends CodegenSupport {
     } else {
       ""
     }
+
+    // org.apache.spark.jni.NativeHelloWorld nhw = new org.apache.spark.jni.NativeHelloWorld();
+    // nhw.nativeMethod(5);
+
     s"""
-       |//org.apache.spark.jni.NativeHelloWorld nhw = new org.apache.spark.jni.NativeHelloWorld();
-       |//nhw.nativeMethod(5);
-       |
-       |org.apache.spark.jni.JNIMethods jnim = new org.apache.spark.jni.JNIMethods();
+       | org.apache.spark.jni.JNIMethods jnim = new org.apache.spark.jni.JNIMethods();
        |
        | while ($limitNotReachedCond $input.hasNext()) {
        |   InternalRow tempRow = (InternalRow) $input.next();
