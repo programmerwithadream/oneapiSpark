@@ -472,7 +472,7 @@ trait InputRDDCodegen extends CodegenSupport {
       null
     }
 
-    System.loadLibrary("NativeHelloWorld");
+    //System.loadLibrary("NativeHelloWorld");
     System.loadLibrary("JNIMethods");
 
     val updateNumOutputRowsMetrics = if (metrics.contains("numOutputRows")) {
@@ -482,8 +482,8 @@ trait InputRDDCodegen extends CodegenSupport {
       ""
     }
     s"""
-       |org.apache.spark.jni.NativeHelloWorld nhw = new org.apache.spark.jni.NativeHelloWorld();
-       |nhw.nativeMethod(5);
+       |//org.apache.spark.jni.NativeHelloWorld nhw = new org.apache.spark.jni.NativeHelloWorld();
+       |//nhw.nativeMethod(5);
        |
        |org.apache.spark.jni.JNIMethods jnim = new org.apache.spark.jni.JNIMethods();
        |
