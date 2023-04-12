@@ -486,6 +486,24 @@ trait InputRDDCodegen extends CodegenSupport {
        |
        | while ($limitNotReachedCond $input.hasNext()) {
        |   InternalRow $row = (InternalRow) $input.next();
+       |
+       |   if ($row instanceof org.apache.spark.sql.execution.vectorized.MutableColumnarRow)
+       |      System.out.println("MutableColumnarRow");
+       |   else if ($row instanceof org.apache.spark.sql.catalyst.expressions.UnsafeRow) {
+       |      System.out.println("UnsafeRow");
+       |
+       |      UnsafeRow usr = (UnsafeRow) $row;
+       |      System.out.println(java.util.Arrays.toString((byte[])usr.getBaseObject()));
+       |   }
+       |   else if ($row instanceof org.apache.spark.sql.vectorized.ColumnarRow)
+       |      System.out.println("ColumnarRow");
+       |   else if ($row instanceof org.apache.spark.sql.vectorized.ColumnarBatchRow)
+       |      System.out.println("ColumnarBatchRow");
+       |   else if ($row instanceof org.apache.spark.sql.catalyst.expressions.JoinedRow)
+       |      System.out.println("JoinedRow");
+       |   else
+       |      System.out.println("Unknown");
+       |
        |   ${updateNumOutputRowsMetrics}
        |   ${consume(ctx, outputVars, if (createUnsafeProjection) null else row).trim}
        |   ${shouldStopCheckCode}
