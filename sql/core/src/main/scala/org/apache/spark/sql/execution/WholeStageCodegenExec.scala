@@ -473,6 +473,7 @@ trait InputRDDCodegen extends CodegenSupport {
     }
 
     System.loadLibrary("NativeHelloWorld");
+    System.loadLibrary("JNIMethods");
 
     val updateNumOutputRowsMetrics = if (metrics.contains("numOutputRows")) {
       val numOutputRows = metricTerm(ctx, "numOutputRows")
@@ -484,25 +485,40 @@ trait InputRDDCodegen extends CodegenSupport {
        |org.apache.spark.jni.NativeHelloWorld nhw = new org.apache.spark.jni.NativeHelloWorld();
        |nhw.nativeMethod(5);
        |
+       |org.apache.spark.jni.JNIMethods jnim = new org.apache.spark.jni.JNIMethods();
+       |
        | while ($limitNotReachedCond $input.hasNext()) {
-       |   InternalRow $row = (InternalRow) $input.next();
+       |   InternalRow tempRow = (InternalRow) $input.next();
        |
-       |   if ($row instanceof org.apache.spark.sql.execution.vectorized.MutableColumnarRow)
+       |   if (tempRow instanceof org.apache.spark.sql.execution.vectorized.MutableColumnarRow) {
        |      System.out.println("MutableColumnarRow");
-       |   else if ($row instanceof org.apache.spark.sql.catalyst.expressions.UnsafeRow) {
-       |      System.out.println("UnsafeRow");
        |
-       |      UnsafeRow usr = (UnsafeRow) $row;
-       |      System.out.println(java.util.Arrays.toString((byte[])usr.getBaseObject()));
+       |      InternalRow $row = jnim.returnInternalRow(tempRow);
        |   }
-       |   else if ($row instanceof org.apache.spark.sql.vectorized.ColumnarRow)
+       |   else if (tempRow instanceof org.apache.spark.sql.catalyst.expressions.UnsafeRow) {
+       |      System.out.println("UnsafeRow");
+       |      UnsafeRow usr = (UnsafeRow) tempRow;
+       |      System.out.println(java.util.Arrays.toString((byte[])usr.getBaseObject()));
+       |
+       |      InternalRow $row = jnim.returnUnsafeRow(tempRow);
+       |   }
+       |   else if (tempRow instanceof org.apache.spark.sql.vectorized.ColumnarRow) {
        |      System.out.println("ColumnarRow");
-       |   else if ($row instanceof org.apache.spark.sql.vectorized.ColumnarBatchRow)
+       |
+       |      InternalRow $row = jnim.returnInternalRow(tempRow);
+       |   }
+       |   else if (tempRow instanceof org.apache.spark.sql.vectorized.ColumnarBatchRow) {
        |      System.out.println("ColumnarBatchRow");
-       |   else if ($row instanceof org.apache.spark.sql.catalyst.expressions.JoinedRow)
+       |      InternalRow $row = jnim.returnInternalRow(tempRow);
+       |   }
+       |   else if (tempRow instanceof org.apache.spark.sql.catalyst.expressions.JoinedRow) {
        |      System.out.println("JoinedRow");
-       |   else
+       |      InternalRow $row = jnim.returnInternalRow(tempRow);
+       |   }
+       |   else {
        |      System.out.println("Unknown");
+       |      InternalRow $row = jnim.returnInternalRow(tempRow);
+       |   }
        |
        |   ${updateNumOutputRowsMetrics}
        |   ${consume(ctx, outputVars, if (createUnsafeProjection) null else row).trim}
