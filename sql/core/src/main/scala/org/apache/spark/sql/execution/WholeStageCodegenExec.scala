@@ -472,7 +472,7 @@ trait InputRDDCodegen extends CodegenSupport {
       null
     }
 
-    //System.loadLibrary("NativeHelloWorld");
+    // System.loadLibrary("NativeHelloWorld");
     System.loadLibrary("JNIMethods");
 
     val updateNumOutputRowsMetrics = if (metrics.contains("numOutputRows")) {
