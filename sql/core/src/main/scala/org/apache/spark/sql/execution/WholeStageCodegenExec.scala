@@ -486,7 +486,7 @@ trait InputRDDCodegen extends CodegenSupport {
     // nhw.nativeMethod(5);
 
     s"""
-       | org.apache.spark.jni.JNIMethods jnim = new org.apache.spark.jni.JNIMethods();
+       | org.apache.spark.JNI.JNIMethods jnim = new org.apache.spark.JNI.JNIMethods();
        |
        | while ($limitNotReachedCond $input.hasNext()) {
        |   InternalRow tempRow = (InternalRow) $input.next();
