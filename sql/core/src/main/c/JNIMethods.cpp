@@ -11,6 +11,6 @@ JNIEXPORT jobject JNICALL Java_org_apache_spark_jni_JNIMethods_returnInternalRow
     return obj2;
 }
 
-JNIEXPORT jobject JNICALL Java_org_apache_spark_jni_JNIMethods_returnUnsafeROw(JNIEnv *env, jobject obj1, jobject obj2) {
+JNIEXPORT jobject JNICALL Java_org_apache_spark_jni_JNIMethods_returnUnsafeRow(JNIEnv *env, jobject obj1, jobject obj2) {
     return obj2;
 }
