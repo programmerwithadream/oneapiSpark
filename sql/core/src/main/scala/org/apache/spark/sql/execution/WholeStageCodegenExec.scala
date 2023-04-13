@@ -501,7 +501,7 @@ trait InputRDDCodegen extends CodegenSupport {
        |      UnsafeRow usr = (UnsafeRow) tempRow;
        |      System.out.println(java.util.Arrays.toString((byte[])usr.getBaseObject()));
        |
-       |      InternalRow $row = (InternalRow) jnim.returnUnsafeRow(tempRow);
+       |      InternalRow $row = (InternalRow) jnim.returnInternalRow(tempRow);
        |   }
        |   else if (tempRow instanceof org.apache.spark.sql.vectorized.ColumnarRow) {
        |      System.out.println("ColumnarRow");
