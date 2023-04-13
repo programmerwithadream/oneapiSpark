@@ -490,35 +490,36 @@ trait InputRDDCodegen extends CodegenSupport {
        |
        | while ($limitNotReachedCond $input.hasNext()) {
        |   InternalRow tempRow = (InternalRow) $input.next();
+       |   InternalRow $row;
        |
        |   if (tempRow instanceof org.apache.spark.sql.execution.vectorized.MutableColumnarRow) {
        |      System.out.println("MutableColumnarRow");
        |
-       |      InternalRow $row = (InternalRow) jnim.returnInternalRow(tempRow);
+       |      $row = (InternalRow) jnim.returnInternalRow(tempRow);
        |   }
        |   else if (tempRow instanceof org.apache.spark.sql.catalyst.expressions.UnsafeRow) {
        |      System.out.println("UnsafeRow");
        |      UnsafeRow usr = (UnsafeRow) tempRow;
        |      System.out.println(java.util.Arrays.toString((byte[])usr.getBaseObject()));
        |
-       |      InternalRow $row = (InternalRow) jnim.returnInternalRow(tempRow);
+       |      $row = (InternalRow) jnim.returnInternalRow(tempRow);
        |   }
        |   else if (tempRow instanceof org.apache.spark.sql.vectorized.ColumnarRow) {
        |      System.out.println("ColumnarRow");
        |
-       |      InternalRow $row = (InternalRow) jnim.returnInternalRow(tempRow);
+       |      $row = (InternalRow) jnim.returnInternalRow(tempRow);
        |   }
        |   else if (tempRow instanceof org.apache.spark.sql.vectorized.ColumnarBatchRow) {
        |      System.out.println("ColumnarBatchRow");
-       |      InternalRow $row = (InternalRow) jnim.returnInternalRow(tempRow);
+       |      $row = (InternalRow) jnim.returnInternalRow(tempRow);
        |   }
        |   else if (tempRow instanceof org.apache.spark.sql.catalyst.expressions.JoinedRow) {
        |      System.out.println("JoinedRow");
-       |      InternalRow $row = (InternalRow) jnim.returnInternalRow(tempRow);
+       |      $row = (InternalRow) jnim.returnInternalRow(tempRow);
        |   }
        |   else {
        |      System.out.println("Unknown");
-       |      InternalRow $row = (InternalRow) jnim.returnInternalRow(tempRow);
+       |      $row = (InternalRow) jnim.returnInternalRow(tempRow);
        |   }
        |
        |   ${updateNumOutputRowsMetrics}
