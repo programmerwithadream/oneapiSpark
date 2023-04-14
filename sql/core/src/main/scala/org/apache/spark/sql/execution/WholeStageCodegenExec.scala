@@ -499,8 +499,6 @@ trait InputRDDCodegen extends CodegenSupport {
        |   }
        |   else if (tempRow instanceof org.apache.spark.sql.catalyst.expressions.UnsafeRow) {
        |      System.out.println("UnsafeRow");
-       |      UnsafeRow usr = (UnsafeRow) tempRow;
-       |      System.out.println(java.util.Arrays.toString((byte[])usr.getBaseObject()));
        |
        |      $row = (InternalRow) jnim.returnInternalRow(tempRow);
        |   }
