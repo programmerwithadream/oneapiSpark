@@ -456,6 +456,11 @@ trait InputRDDCodegen extends CodegenSupport {
   }
 
   override def doProduce(ctx: CodegenContext): String = {
+    var isFilterExec = "not FilterExec";
+    if (ctx instanceOf FilterExec) {
+      isFilterExec = "is FilterExec";
+    }
+
     // Inline mutable state since an InputRDDCodegen is used once in a task for WholeStageCodegen
     val input = ctx.addMutableState("scala.collection.Iterator", "input", v => s"$v = inputs[0];",
       forceInline = true)
@@ -487,6 +492,8 @@ trait InputRDDCodegen extends CodegenSupport {
 
     s"""
        | org.apache.spark.JNI.JNIMethods jnim = new org.apache.spark.JNI.JNIMethods();
+       |
+       | System.out.println($isFilterExec);
        |
        | while ($limitNotReachedCond $input.hasNext()) {
        |   InternalRow tempRow = (InternalRow) $input.next();
