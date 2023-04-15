@@ -457,7 +457,7 @@ trait InputRDDCodegen extends CodegenSupport {
 
   override def doProduce(ctx: CodegenContext): String = {
     var isFilterExec = "not FilterExec";
-    if (ctx isInstanceOf[FilterExec]) {
+    if (ctx.isInstanceOf[FilterExec]) {
       isFilterExec = "is FilterExec";
     }
 
