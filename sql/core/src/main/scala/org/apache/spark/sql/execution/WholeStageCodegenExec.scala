@@ -694,6 +694,14 @@ case class WholeStageCodegenExec(child: SparkPlan)(val codegenStageId: Int)
    * @return the tuple of the codegen context and the actual generated source.
    */
   def doCodeGen(): (CodegenContext, CodeAndComment) = {
+
+    // Check if the optimized plan contains a Filter node
+    val hasFilterNode = child.collect { case f: org.apache.spark.sql.catalyst.plans.logical.Filter => f }.nonEmpty
+
+    // scalastyle:off println
+    println(s"Does the query plan contain a filter operation? $hasFilterNode");
+    // scalastyle:on println
+
     val startTime = System.nanoTime()
     val ctx = new CodegenContext
     val code = child.asInstanceOf[CodegenSupport].produce(ctx, this)
