@@ -696,10 +696,10 @@ case class WholeStageCodegenExec(child: SparkPlan)(val codegenStageId: Int)
   def doCodeGen(): (CodegenContext, CodeAndComment) = {
 
     // Check if the optimized plan contains a Filter node
-    val hasFilterNode = child.collect { case f: org.apache.spark.sql.catalyst.plans.logical.Filter => f }.nonEmpty
+    val hasFilterNode = hasFilterExec(child)
 
     // scalastyle:off println
-    println(s"Does the query plan contain a filter operation? $hasFilterNode");
+    println(s"Does the query plan contain a filter operation? $hasFilterNode")
     // scalastyle:on println
 
     val startTime = System.nanoTime()
@@ -758,6 +758,15 @@ case class WholeStageCodegenExec(child: SparkPlan)(val codegenStageId: Int)
 
     logDebug(s"\n${CodeFormatter.format(cleanedSource)}")
     (ctx, cleanedSource)
+  }
+
+  def hasFilterExec(plan: SparkPlan): Boolean = {
+    plan match {
+      case _: FilterExec => true
+      case plan: SparkPlan =>
+        plan.children.exists(child => hasFilterExec(child))
+      case _ => false
+    }
   }
 
   override def doExecuteColumnar(): RDD[ColumnarBatch] = {
