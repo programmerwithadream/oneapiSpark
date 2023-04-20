@@ -36,6 +36,7 @@ import org.apache.spark.sql.execution.columnar.InMemoryTableScanExec
 import org.apache.spark.sql.execution.joins.{BroadcastHashJoinExec, BroadcastNestedLoopJoinExec, ShuffledHashJoinExec, SortMergeJoinExec}
 import org.apache.spark.sql.execution.metric.SQLMetrics
 import org.apache.spark.sql.internal.SQLConf
+import org.apache.spark.sql.oneapi.FilterFlag
 import org.apache.spark.sql.types._
 import org.apache.spark.sql.vectorized.ColumnarBatch
 import org.apache.spark.util.Utils
@@ -698,8 +699,13 @@ case class WholeStageCodegenExec(child: SparkPlan)(val codegenStageId: Int)
     // Check if the optimized plan contains a Filter node
     val hasFilterNode = hasFilterExec(child)
 
+
+    FilterFlag.value = hasFilterNode
     // scalastyle:off println
     println(s"Does the query plan contain a filter operation? $hasFilterNode")
+    if (FilterFlag.value) {
+      println(s"FilterFlag was set")
+    }
     // scalastyle:on println
 
     val startTime = System.nanoTime()
@@ -986,6 +992,8 @@ case class WholeStageCodegenExec(child: SparkPlan)(val codegenStageId: Int)
       """.trim
       // scalastyle: on
     }
+
+    FilterFlag.value = false;
 
     // try to compile, helpful for debug
     val cleanedSource = CodeFormatter.stripOverlappingComments(
