@@ -268,6 +268,11 @@ case class FilterExec(condition: Expression, child: SparkPlan)
      """.stripMargin
     /* */
 
+    // scalastyle:off println
+    println(s"A new doconsume is called in filterexec: ")
+    println(temp)
+    // scalastyle:on println
+
     /* */
     s"""
     //This is our implemented hard code

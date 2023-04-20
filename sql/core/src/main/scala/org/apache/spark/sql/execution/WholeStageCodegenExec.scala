@@ -196,16 +196,12 @@ trait CodegenSupport extends SparkPlan {
     } else {
       parent.doConsume(ctx, inputVars, rowVar)
     }
-    val ret = s"""
+
+    s"""
        |${ctx.registerComment(s"CONSUME: ${parent.simpleString(conf.maxToStringFields)}")}
        |$evaluated
        |$consumeFunc
      """.stripMargin
-    // scalastyle:off println
-    println(s"A new consume is called: ")
-    println(ret)
-    // scalastyle:on println
-    ret
   }
 
   /**
