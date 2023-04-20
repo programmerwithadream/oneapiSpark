@@ -271,12 +271,15 @@ case class FilterExec(condition: Expression, child: SparkPlan)
 
     // scalastyle:off println
      println(s"A new doconsume is called in filterexec: ")
+     println("old doconsume is as follows: ")
      println(temp)
      println(s"end of doconsume")
     // scalastyle:on println
 
-    /*
+    /* */
+    val ret =
     s"""
+
     do {
 
       boolean inputadapter_isNull_0 = inputadapter_row_0.isNullAt(0);
@@ -295,8 +298,7 @@ case class FilterExec(condition: Expression, child: SparkPlan)
         inputadapter_value_0, 20.0D) > 0;
       if (!filter_value_3) continue;
 
-
-      ((org.apache.spark.sql.execution.metric.SQLMetric) references[0] /* numOutputRows */ ).add(1);
+      ((org.apache.spark.sql.execution.metric.SQLMetric) references[0]).add(1);
 
 
 
@@ -313,9 +315,15 @@ case class FilterExec(condition: Expression, child: SparkPlan)
 
 
     } while (false);""".stripMargin
-    */
+    /* */
 
-    return temp
+    // scalastyle:off println
+    println("hardcoded doconsume is as follows: ")
+    println(ret)
+    println(s"end of doconsume")
+    // scalastyle:on println
+
+    return ret
   }
 
   protected override def doExecute(): RDD[InternalRow] = {
