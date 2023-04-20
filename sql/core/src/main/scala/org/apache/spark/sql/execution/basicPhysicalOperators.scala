@@ -497,6 +497,8 @@ org.apache.spark.sql.catalyst.util.SQLOrderingUtil.compareDoubles(inputadapter_v
 
     } while (false);""".stripMargin
      /* */
+
+    return temp
   }
 
   protected override def doExecute(): RDD[InternalRow] = {
