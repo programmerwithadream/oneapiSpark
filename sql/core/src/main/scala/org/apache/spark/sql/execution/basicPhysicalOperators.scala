@@ -283,8 +283,8 @@ case class FilterExec(condition: Expression, child: SparkPlan)
 
       boolean filter_value_3 = false;
       filter_value_3 =
-        org.apache.spark.sql.catalyst.util.SQLOrderingUtil.compareDoubles(
-          inputadapter_value_16, 20.0D) > 0;
+org.apache.spark.sql.catalyst.util.SQLOrderingUtil.compareDoubles(inputadapter_value_16, 20.0D) >
+0;
       if (!filter_value_3) continue;
 
       ((org.apache.spark.sql.execution.metric.SQLMetric) references[0]
