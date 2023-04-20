@@ -269,9 +269,6 @@ case class FilterExec(condition: Expression, child: SparkPlan)
 
      */
     s"""
-    InternalRow inputadapter_row_0 = (InternalRow) inputadapter_input_0
-    .next();
-
     do {
       boolean inputadapter_isNull_16 = inputadapter_row_0.isNullAt(16);
       double inputadapter_value_16 = inputadapter_isNull_16 ?
