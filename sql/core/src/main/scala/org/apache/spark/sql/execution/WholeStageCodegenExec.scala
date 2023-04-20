@@ -202,6 +202,7 @@ trait CodegenSupport extends SparkPlan {
        |$consumeFunc
      """.stripMargin
     // scalastyle:off println
+    println(s"A new consume is called: ")
     println(ret)
     // scalastyle:on println
     ret
