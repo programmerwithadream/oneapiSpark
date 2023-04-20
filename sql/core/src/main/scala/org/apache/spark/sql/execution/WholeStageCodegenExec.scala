@@ -724,274 +724,41 @@ case class WholeStageCodegenExec(child: SparkPlan)(val codegenStageId: Int)
 
     var source = s""""""
 
-    if (!hasFilterNode) {
-      source =
-        s"""
-      public Object generate(Object[] references) {
-        return new $className(references);
-      }
-
-      ${
-          ctx.registerComment(
-            s"""Codegened pipeline for stage (id=$codegenStageId)
-               |${this.treeString.trim}""".stripMargin,
-            "wsc_codegenPipeline")
-        }
-      ${ctx.registerComment(s"codegenStageId=$codegenStageId", "wsc_codegenStageId", true)}
-      final class $className extends ${classOf[BufferedRowIterator].getName} {
-
-        private Object[] references;
-        private scala.collection.Iterator[] inputs;
-        ${ctx.declareMutableStates()}
-
-        public $className(Object[] references) {
-          this.references = references;
-        }
-
-        public void init(int index, scala.collection.Iterator[] inputs) {
-          partitionIndex = index;
-          this.inputs = inputs;
-          ${ctx.initMutableStates()}
-          ${ctx.initPartition()}
-        }
-
-        ${ctx.emitExtraCode()}
-
-        ${ctx.declareAddedFunctions()}
-      }
-      """.trim
-    } else {
-      // scalastyle: off
-      source =
-        s"""
-      public Object generate(Object[] references) {
-        return new $className(references);
-      }
-
-      ${
-          ctx.registerComment(
-            s"""Codegened pipeline for stage (id=$codegenStageId)
-               |${this.treeString.trim}""".stripMargin,
-            "wsc_codegenPipeline")
-        }
-      ${ctx.registerComment(s"codegenStageId=$codegenStageId", "wsc_codegenStageId", true)}
-      final class $className extends ${classOf[BufferedRowIterator].getName} {
-
-        private Object[] references;
-        private scala.collection.Iterator[] inputs;
-        ${ctx.declareMutableStates()}
-
-        public $className(Object[] references) {
-          this.references = references;
-        }
-
-        public void init(int index, scala.collection.Iterator[] inputs) {
-          partitionIndex = index;
-          this.inputs = inputs;
-          ${ctx.initMutableStates()}
-          ${ctx.initPartition()}
-        }
-
-        ${ctx.emitExtraCode()}
-
-        //implement our own custom function
-        protected void processNext() throws java.io.IOException {
-          while ( inputadapter_input_0.hasNext()) {
-            InternalRow inputadapter_row_0 = (InternalRow) inputadapter_input_0.next();
-
-            do {
-              boolean inputadapter_isNull_16 = inputadapter_row_0.isNullAt(16);
-              double inputadapter_value_16 = inputadapter_isNull_16 ?
-              -1.0 : (inputadapter_row_0.getDouble(16));
-
-              boolean filter_value_2 = !inputadapter_isNull_16;
-              if (!filter_value_2) continue;
-
-              boolean filter_value_3 = false;
-              filter_value_3 =
-              org.apache.spark.sql.catalyst.util.SQLOrderingUtil.compareDoubles(
-                inputadapter_value_16, 20.0D) > 0;
-              if (!filter_value_3) continue;
-
-              ((org.apache.spark.sql.execution.metric.SQLMetric) references[0]).add(1);
-
-              boolean inputadapter_isNull_0 = inputadapter_row_0.isNullAt(0);
-              long inputadapter_value_0 = inputadapter_isNull_0 ?
-              -1L : (inputadapter_row_0.getLong(0));
-              boolean inputadapter_isNull_1 = inputadapter_row_0.isNullAt(1);
-              long inputadapter_value_1 = inputadapter_isNull_1 ?
-              -1L : (inputadapter_row_0.getLong(1));
-              boolean inputadapter_isNull_2 = inputadapter_row_0.isNullAt(2);
-              long inputadapter_value_2 = inputadapter_isNull_2 ?
-              -1L : (inputadapter_row_0.getLong(2));
-              boolean inputadapter_isNull_3 = inputadapter_row_0.isNullAt(3);
-              double inputadapter_value_3 = inputadapter_isNull_3 ?
-              -1.0 : (inputadapter_row_0.getDouble(3));
-              boolean inputadapter_isNull_4 = inputadapter_row_0.isNullAt(4);
-              double inputadapter_value_4 = inputadapter_isNull_4 ?
-              -1.0 : (inputadapter_row_0.getDouble(4));
-              boolean inputadapter_isNull_5 = inputadapter_row_0.isNullAt(5);
-              double inputadapter_value_5 = inputadapter_isNull_5 ?
-              -1.0 : (inputadapter_row_0.getDouble(5));
-              boolean inputadapter_isNull_6 = inputadapter_row_0.isNullAt(6);
-              UTF8String inputadapter_value_6 = inputadapter_isNull_6 ?
-              null : (inputadapter_row_0.getUTF8String(6));
-              boolean inputadapter_isNull_7 = inputadapter_row_0.isNullAt(7);
-              long inputadapter_value_7 = inputadapter_isNull_7 ?
-              -1L : (inputadapter_row_0.getLong(7));
-              boolean inputadapter_isNull_8 = inputadapter_row_0.isNullAt(8);
-              long inputadapter_value_8 = inputadapter_isNull_8 ?
-              -1L : (inputadapter_row_0.getLong(8));
-              boolean inputadapter_isNull_9 = inputadapter_row_0.isNullAt(9);
-              long inputadapter_value_9 = inputadapter_isNull_9 ?
-              -1L : (inputadapter_row_0.getLong(9));
-              boolean inputadapter_isNull_10 = inputadapter_row_0.isNullAt(10);
-              double inputadapter_value_10 = inputadapter_isNull_10 ?
-              -1.0 : (inputadapter_row_0.getDouble(10));
-              boolean inputadapter_isNull_11 = inputadapter_row_0.isNullAt(11);
-              double inputadapter_value_11 = inputadapter_isNull_11 ?
-              -1.0 : (inputadapter_row_0.getDouble(11));
-              boolean inputadapter_isNull_12 = inputadapter_row_0.isNullAt(12);
-              double inputadapter_value_12 = inputadapter_isNull_12 ?
-              -1.0 : (inputadapter_row_0.getDouble(12));
-              boolean inputadapter_isNull_13 = inputadapter_row_0.isNullAt(13);
-              double inputadapter_value_13 = inputadapter_isNull_13 ?
-              -1.0 : (inputadapter_row_0.getDouble(13));
-              boolean inputadapter_isNull_14 = inputadapter_row_0.isNullAt(14);
-              double inputadapter_value_14 = inputadapter_isNull_14 ?
-              -1.0 : (inputadapter_row_0.getDouble(14));
-              boolean inputadapter_isNull_15 = inputadapter_row_0.isNullAt(15);
-              double inputadapter_value_15 = inputadapter_isNull_15 ?
-              -1.0 : (inputadapter_row_0.getDouble(15));
-              boolean inputadapter_isNull_17 = inputadapter_row_0.isNullAt(17);
-              double inputadapter_value_17 = inputadapter_isNull_17 ?
-              -1.0 : (inputadapter_row_0.getDouble(17));
-              boolean inputadapter_isNull_18 = inputadapter_row_0.isNullAt(18);
-              double inputadapter_value_18 = inputadapter_isNull_18 ?
-              -1.0 : (inputadapter_row_0.getDouble(18));
-              filter_mutableStateArray_0[0].reset();
-
-              filter_mutableStateArray_0[0].zeroOutNullBytes();
-
-              if (inputadapter_isNull_0) {
-                filter_mutableStateArray_0[0].setNullAt(0);
-              } else {
-                filter_mutableStateArray_0[0].write(0, inputadapter_value_0);
-              }
-
-              if (inputadapter_isNull_1) {
-                filter_mutableStateArray_0[0].setNullAt(1);
-              } else {
-                filter_mutableStateArray_0[0].write(1, inputadapter_value_1);
-              }
-
-              if (inputadapter_isNull_2) {
-                filter_mutableStateArray_0[0].setNullAt(2);
-              } else {
-                filter_mutableStateArray_0[0].write(2, inputadapter_value_2);
-              }
-
-              if (inputadapter_isNull_3) {
-                filter_mutableStateArray_0[0].setNullAt(3);
-              } else {
-                filter_mutableStateArray_0[0].write(3, inputadapter_value_3);
-              }
-
-              if (inputadapter_isNull_4) {
-                filter_mutableStateArray_0[0].setNullAt(4);
-              } else {
-                filter_mutableStateArray_0[0].write(4, inputadapter_value_4);
-              }
-
-              if (inputadapter_isNull_5) {
-                filter_mutableStateArray_0[0].setNullAt(5);
-              } else {
-                filter_mutableStateArray_0[0].write(5, inputadapter_value_5);
-              }
-
-              if (inputadapter_isNull_6) {
-                filter_mutableStateArray_0[0].setNullAt(6);
-              } else {
-                filter_mutableStateArray_0[0].write(6, inputadapter_value_6);
-              }
-
-              if (inputadapter_isNull_7) {
-                filter_mutableStateArray_0[0].setNullAt(7);
-              } else {
-                filter_mutableStateArray_0[0].write(7, inputadapter_value_7);
-              }
-
-              if (inputadapter_isNull_8) {
-                filter_mutableStateArray_0[0].setNullAt(8);
-              } else {
-                filter_mutableStateArray_0[0].write(8, inputadapter_value_8);
-              }
-
-              if (inputadapter_isNull_9) {
-                filter_mutableStateArray_0[0].setNullAt(9);
-              } else {
-                filter_mutableStateArray_0[0].write(9, inputadapter_value_9);
-              }
-
-              if (inputadapter_isNull_10) {
-                filter_mutableStateArray_0[0].setNullAt(10);
-              } else {
-                filter_mutableStateArray_0[0].write(10, inputadapter_value_10);
-              }
-
-              if (inputadapter_isNull_11) {
-                filter_mutableStateArray_0[0].setNullAt(11);
-              } else {
-                filter_mutableStateArray_0[0].write(11, inputadapter_value_11);
-              }
-
-              if (inputadapter_isNull_12) {
-                filter_mutableStateArray_0[0].setNullAt(12);
-              } else {
-                filter_mutableStateArray_0[0].write(12, inputadapter_value_12);
-              }
-
-              if (inputadapter_isNull_13) {
-                filter_mutableStateArray_0[0].setNullAt(13);
-              } else {
-                filter_mutableStateArray_0[0].write(13, inputadapter_value_13);
-              }
-
-              if (inputadapter_isNull_14) {
-                filter_mutableStateArray_0[0].setNullAt(14);
-              } else {
-                filter_mutableStateArray_0[0].write(14, inputadapter_value_14);
-              }
-
-              if (inputadapter_isNull_15) {
-                filter_mutableStateArray_0[0].setNullAt(15);
-              } else {
-                filter_mutableStateArray_0[0].write(15, inputadapter_value_15);
-              }
-
-              filter_mutableStateArray_0[0].write(16, inputadapter_value_16);
-
-              if (inputadapter_isNull_17) {
-                filter_mutableStateArray_0[0].setNullAt(17);
-              } else {
-                filter_mutableStateArray_0[0].write(17, inputadapter_value_17);
-              }
-
-              if (inputadapter_isNull_18) {
-                filter_mutableStateArray_0[0].setNullAt(18);
-              } else {
-                filter_mutableStateArray_0[0].write(18, inputadapter_value_18);
-              }
-              append((filter_mutableStateArray_0[0].getRow()));
-
-            } while(false);
-            if (shouldStop()) return;
-          }
-        }
-      }
-      """.trim
-      // scalastyle: on
+    source =
+      s"""
+    public Object generate(Object[] references) {
+      return new $className(references);
     }
+
+    ${
+        ctx.registerComment(
+          s"""Codegened pipeline for stage (id=$codegenStageId)
+             |${this.treeString.trim}""".stripMargin,
+          "wsc_codegenPipeline")
+      }
+    ${ctx.registerComment(s"codegenStageId=$codegenStageId", "wsc_codegenStageId", true)}
+    final class $className extends ${classOf[BufferedRowIterator].getName} {
+
+      private Object[] references;
+      private scala.collection.Iterator[] inputs;
+      ${ctx.declareMutableStates()}
+
+      public $className(Object[] references) {
+        this.references = references;
+      }
+
+      public void init(int index, scala.collection.Iterator[] inputs) {
+        partitionIndex = index;
+        this.inputs = inputs;
+        ${ctx.initMutableStates()}
+        ${ctx.initPartition()}
+      }
+
+      ${ctx.emitExtraCode()}
+
+      ${ctx.declareAddedFunctions()}
+    }
+    """.trim
 
     FilterFlag.value = false;
 
