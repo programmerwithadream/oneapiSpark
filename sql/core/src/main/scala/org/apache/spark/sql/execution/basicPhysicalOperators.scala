@@ -259,7 +259,7 @@ case class FilterExec(condition: Expression, child: SparkPlan)
 
     // Note: wrap in "do { } while(false);", so the generated checks can jump out with "continue;"
     /* */
-    s"""
+    val temp = s"""
        |do {
        |  $predicateCode
        |  $numOutput.add(1);
@@ -268,7 +268,7 @@ case class FilterExec(condition: Expression, child: SparkPlan)
      """.stripMargin
     /* */
 
-    /*
+    /* */
     s"""
     //This is our implemented hard code
     do {
@@ -496,7 +496,7 @@ org.apache.spark.sql.catalyst.util.SQLOrderingUtil.compareDoubles(inputadapter_v
       append((filter_mutableStateArray_0[0].getRow()));
 
     } while (false);""".stripMargin
-     */
+     /* */
   }
 
   protected override def doExecute(): RDD[InternalRow] = {
