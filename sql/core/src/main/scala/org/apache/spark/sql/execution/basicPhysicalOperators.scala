@@ -258,7 +258,7 @@ case class FilterExec(condition: Expression, child: SparkPlan)
     }
 
     // Note: wrap in "do { } while(false);", so the generated checks can jump out with "continue;"
-    /*
+    /**/
     s"""
        |do {
        |  $predicateCode
@@ -267,7 +267,9 @@ case class FilterExec(condition: Expression, child: SparkPlan)
        |} while(false);
      """.stripMargin
 
-     */
+     /**/
+
+    /*
     s"""
     do {
       boolean inputadapter_isNull_16 = inputadapter_row_0.isNullAt(16);
@@ -494,6 +496,7 @@ case class FilterExec(condition: Expression, child: SparkPlan)
       append((filter_mutableStateArray_0[0].getRow()));
 
     } while (false);""".stripMargin
+     */
   }
 
   protected override def doExecute(): RDD[InternalRow] = {
