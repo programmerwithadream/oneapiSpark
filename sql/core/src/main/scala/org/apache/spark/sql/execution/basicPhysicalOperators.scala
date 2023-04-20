@@ -258,7 +258,7 @@ case class FilterExec(condition: Expression, child: SparkPlan)
     }
 
     // Note: wrap in "do { } while(false);", so the generated checks can jump out with "continue;"
-    /**/
+    /* */
     s"""
        |do {
        |  $predicateCode
@@ -267,7 +267,7 @@ case class FilterExec(condition: Expression, child: SparkPlan)
        |} while(false);
      """.stripMargin
 
-     /**/
+     /* */
 
     /*
     s"""
