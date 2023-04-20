@@ -258,7 +258,8 @@ case class FilterExec(condition: Expression, child: SparkPlan)
     }
 
     // Note: wrap in "do { } while(false);", so the generated checks can jump out with "continue;"
-    /*
+    /* */
+    val temp =
     s"""
        |do {
        |  $predicateCode
@@ -266,14 +267,15 @@ case class FilterExec(condition: Expression, child: SparkPlan)
        |  ${consume(ctx, resultVars)}
        |} while(false);
      """.stripMargin
-    */
+    /* */
 
     // scalastyle:off println
-    // println(s"A new doconsume is called in filterexec: ")
-    // println(temp)
+     println(s"A new doconsume is called in filterexec: ")
+     println(temp)
+     println(s"end of doconsume")
     // scalastyle:on println
 
-    /* */
+    /*
     s"""
     do {
 
@@ -311,7 +313,9 @@ case class FilterExec(condition: Expression, child: SparkPlan)
 
 
     } while (false);""".stripMargin
-     /* */
+    */
+
+    return temp
   }
 
   protected override def doExecute(): RDD[InternalRow] = {
