@@ -27,10 +27,13 @@ JNIEXPORT jobject JNICALL Java_org_apache_spark_JNI_JNIMethods_returnUnsafeRow(J
 
 JNIEXPORT jint JNICALL Java_org_apache_spark_JNI_JNIMethods_JNICompareDouble(JNIEnv *env, jobject obj1, jdouble input, jdouble threshold) {
     if (input > threshold) {
+        std::cout << "cpp comparedouble returned 1" << std::endl;
         return 1;
     } else if (input < threshold) {
+        std::cout << "cpp comparedouble returned -1" << std::endl;
         return -1;
     } else {
+        std::cout << "cpp comparedouble returned 0" << std::endl;
         return 0;
     }
 }

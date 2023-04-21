@@ -270,10 +270,10 @@ case class FilterExec(condition: Expression, child: SparkPlan)
     /* */
 
     // scalastyle:off println
-     println(s"A new doconsume is called in filterexec: ")
-     println("old doconsume is as follows: ")
-     println(temp)
-     println(s"end of doconsume")
+    // println(s"A new doconsume is called in filterexec: ")
+    // println("old doconsume is as follows: ")
+    // println(temp)
+    // println(s"end of doconsume")
     // scalastyle:on println
 
     /* */
@@ -318,9 +318,9 @@ case class FilterExec(condition: Expression, child: SparkPlan)
     /* */
 
     // scalastyle:off println
-    println("hardcoded doconsume is as follows: ")
-    println(ret)
-    println(s"end of doconsume")
+    // println("hardcoded doconsume is as follows: ")
+    // println(ret)
+    // println(s"end of doconsume")
     // scalastyle:on println
 
     return ret
