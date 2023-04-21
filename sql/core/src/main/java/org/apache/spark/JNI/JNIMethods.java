@@ -11,5 +11,7 @@ public class JNIMethods {
 
     public native UnsafeRow returnUnsafeRow(UnsafeRow row);
 
+    public native int JNICompareDouble(double value, double threshold);
+
 
 }

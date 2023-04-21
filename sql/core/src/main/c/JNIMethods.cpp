@@ -24,3 +24,13 @@ JNIEXPORT jobject JNICALL Java_org_apache_spark_JNI_JNIMethods_returnInternalRow
 JNIEXPORT jobject JNICALL Java_org_apache_spark_JNI_JNIMethods_returnUnsafeRow(JNIEnv *env, jobject obj1, jobject obj2) {
     return obj2;
 }
+
+JNIEXPORT jint JNICALL Java_org_apache_spark_JNI_JNIMethods_JNICompareDouble(JNIEnv *env, jobject obj1, jdouble input, jdouble threshold) {
+    if (input > threshold) {
+        return 1;
+    } else if (input < threshold) {
+        return -1;
+    } else {
+        return 0;
+    }
+}

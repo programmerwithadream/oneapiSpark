@@ -293,9 +293,9 @@ case class FilterExec(condition: Expression, child: SparkPlan)
 
 
       boolean filter_value_3 = false;
-      filter_value_3 =
-        org.apache.spark.sql.catalyst.util.SQLOrderingUtil.compareDoubles(
-        inputadapter_value_0, 20.0D) > 0;
+      filter_value_3 = jnim.JNICompareDouble(inputadapter_value_0, 20.0D) > 0;
+      //  org.apache.spark.sql.catalyst.util.SQLOrderingUtil.compareDoubles(
+      //  inputadapter_value_0, 20.0D) > 0;
       if (!filter_value_3) continue;
 
       ((org.apache.spark.sql.execution.metric.SQLMetric) references[0]).add(1);

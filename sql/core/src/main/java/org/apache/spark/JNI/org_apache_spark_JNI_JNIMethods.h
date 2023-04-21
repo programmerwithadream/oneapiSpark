@@ -31,6 +31,14 @@ JNIEXPORT jobject JNICALL Java_org_apache_spark_JNI_JNIMethods_returnInternalRow
 JNIEXPORT jobject JNICALL Java_org_apache_spark_JNI_JNIMethods_returnUnsafeRow
   (JNIEnv *, jobject, jobject);
 
+/*
+ * Class:     org_apache_spark_JNI_JNIMethods
+ * Method:    JNICompareDouble
+ * Signature: (DD)I
+ */
+JNIEXPORT jint JNICALL Java_org_apache_spark_JNI_JNIMethods_JNICompareDouble
+  (JNIEnv *, jobject, jdouble, jdouble);
+
 #ifdef __cplusplus
 }
 #endif
