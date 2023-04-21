@@ -208,7 +208,8 @@ case class ColumnarToRowExec(child: SparkPlan) extends ColumnarToRowTransition w
     // scalastyle:on println
 
     val ret =
-      s"""|
+      s"""
+         |//This is our hardcoded doproduce from columnartorowexec
          |if (columnartorow_mutableStateArray_1[0] == null) {
          |  columnartorow_nextBatch_0();
          |}
