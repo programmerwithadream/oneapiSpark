@@ -204,9 +204,9 @@ trait CodegenSupport extends SparkPlan {
      """.stripMargin
 
     // scalastyle:off println
-     println(s"A new consume is called in wholestagecodegen: ")
-     println(ret)
-     println(s"end of consume")
+    // println(s"A new consume is called in wholestagecodegen: ")
+    // println(ret)
+    // println(s"end of consume")
     // scalastyle:on println
 
     return ret;

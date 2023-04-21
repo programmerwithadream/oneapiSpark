@@ -182,7 +182,8 @@ case class ColumnarToRowExec(child: SparkPlan) extends ColumnarToRowTransition w
     } else {
       "// shouldStop check is eliminated"
     }
-    s"""
+
+    val ret = s"""
        |if ($batch == null) {
        |  $nextBatchFuncName();
        |}
@@ -199,6 +200,14 @@ case class ColumnarToRowExec(child: SparkPlan) extends ColumnarToRowTransition w
        |  $nextBatchFuncName();
        |}
      """.stripMargin
+
+    // scalastyle:off println
+     println(s"A new doproduce is called in ColumnarToRowExec: ")
+     println(ret)
+     println(s"end of doproduce")
+    // scalastyle:on println
+
+    return ret
   }
 
   override def inputRDDs(): Seq[RDD[InternalRow]] = {
