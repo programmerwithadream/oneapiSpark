@@ -13,5 +13,7 @@ public class JNIMethods {
 
     public native int JNICompareDouble(double value, double threshold);
 
+    public native int[] JNIOneapiCompareFloatArray(float[] arr, float threshold, int size);
+
 
 }
