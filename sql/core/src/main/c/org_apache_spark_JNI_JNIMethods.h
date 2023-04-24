@@ -39,6 +39,14 @@ JNIEXPORT jobject JNICALL Java_org_apache_spark_JNI_JNIMethods_returnUnsafeRow
 JNIEXPORT jint JNICALL Java_org_apache_spark_JNI_JNIMethods_JNICompareDouble
   (JNIEnv *, jobject, jdouble, jdouble);
 
+/*
+ * Class:     org_apache_spark_JNI_JNIMethods
+ * Method:    JNIOneapiCompareGreaterFloatArray
+ * Signature: ([FFII)[I
+ */
+JNIEXPORT jintArray JNICALL Java_org_apache_spark_JNI_JNIMethods_JNIOneapiCompareGreaterFloatArray
+  (JNIEnv *, jobject, jfloatArray, jfloat, jint, jint);
+
 #ifdef __cplusplus
 }
 #endif

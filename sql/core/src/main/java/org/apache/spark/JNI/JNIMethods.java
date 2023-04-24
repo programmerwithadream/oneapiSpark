@@ -13,7 +13,9 @@ public class JNIMethods {
 
     public native int JNICompareDouble(double value, double threshold);
 
-    public native int[] JNIOneapiCompareFloatArray(float[] arr, float threshold, int size);
+    //pass two ints: columnartorow_localEnd_0, columnartorow_batchIdx_0
+    // and an InternalRow: columnartorow_mutableStateArray_2
+    public native int[] JNIOneapiCompareGreaterFloatArray(float[] arr, float threshold, int localEnd, int batchIdx);
 
 
 }

@@ -244,19 +244,10 @@ case class ColumnarToRowExec(child: SparkPlan) extends ColumnarToRowTransition w
          |  ((org.apache.spark.sql.execution.metric.SQLMetric) references[2]).add(1);
          |
          |
-         |
-         |
          |// common sub-expressions
          |
          |
-         |
-         |
-         |
-         |
-         |
          | hashAgg_doConsume_0();
-         |
-         |
          |
          |
          |} while(false);
