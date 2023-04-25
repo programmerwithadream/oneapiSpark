@@ -443,6 +443,11 @@ public final class OnHeapColumnVector extends WritableColumnVector {
     return array;
   }
 
+  public float[] getAllFloats() {
+    assert(dictionary == null);
+    return floatData;
+  }
+
   //
   // APIs dealing with doubles
   //
