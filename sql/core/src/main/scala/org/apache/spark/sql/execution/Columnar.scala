@@ -232,7 +232,7 @@ case class ColumnarToRowExec(child: SparkPlan) extends ColumnarToRowTransition w
          |    columnartorow_batchIdx_0 + i));
          |}
          |
-         |float[] testArr = (float) (columnartorow_mutableStateArray_2[0].getAllFloats());
+         |float[] testArr = columnartorow_mutableStateArray_2[0].getAllFloats();
          |System.out.println(testArr.length);
          |
          |  //enter c++
