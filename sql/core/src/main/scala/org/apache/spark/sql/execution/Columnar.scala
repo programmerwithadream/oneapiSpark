@@ -202,9 +202,9 @@ case class ColumnarToRowExec(child: SparkPlan) extends ColumnarToRowTransition w
      """.stripMargin
 
     // scalastyle:off println
-     println(s"A new doproduce is called in ColumnarToRowExec: ")
-     println(temp)
-     println(s"end of doproduce")
+    // println(s"A new doproduce is called in ColumnarToRowExec: ")
+    // println(temp)
+    // println(s"end of doproduce")
     // scalastyle:on println
 
     System.loadLibrary("JNIMethods");
