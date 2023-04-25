@@ -246,7 +246,7 @@ case class ColumnarToRowExec(child: SparkPlan) extends ColumnarToRowTransition w
          |}
          |""".stripMargin
 
-    return temp
+    return ret
   }
 
   override def inputRDDs(): Seq[RDD[InternalRow]] = {

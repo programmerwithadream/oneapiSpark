@@ -503,30 +503,30 @@ trait InputRDDCodegen extends CodegenSupport {
        |   InternalRow $row;
        |
        |   if (tempRow instanceof org.apache.spark.sql.execution.vectorized.MutableColumnarRow) {
-       |      System.out.println("MutableColumnarRow");
+       |      //System.out.println("MutableColumnarRow");
        |
        |      $row = (InternalRow) jnim.returnInternalRow(tempRow);
        |   }
        |   else if (tempRow instanceof org.apache.spark.sql.catalyst.expressions.UnsafeRow) {
-       |      System.out.println("UnsafeRow");
+       |      //System.out.println("UnsafeRow");
        |
        |      $row = (InternalRow) jnim.returnInternalRow(tempRow);
        |   }
        |   else if (tempRow instanceof org.apache.spark.sql.vectorized.ColumnarRow) {
-       |      System.out.println("ColumnarRow");
+       |      //System.out.println("ColumnarRow");
        |
        |      $row = (InternalRow) jnim.returnInternalRow(tempRow);
        |   }
        |   else if (tempRow instanceof org.apache.spark.sql.vectorized.ColumnarBatchRow) {
-       |      System.out.println("ColumnarBatchRow");
+       |      //System.out.println("ColumnarBatchRow");
        |      $row = (InternalRow) jnim.returnInternalRow(tempRow);
        |   }
        |   else if (tempRow instanceof org.apache.spark.sql.catalyst.expressions.JoinedRow) {
-       |      System.out.println("JoinedRow");
+       |      //System.out.println("JoinedRow");
        |      $row = (InternalRow) jnim.returnInternalRow(tempRow);
        |   }
        |   else {
-       |      System.out.println("Unknown");
+       |      //System.out.println("Unknown");
        |      $row = (InternalRow) jnim.returnInternalRow(tempRow);
        |   }
        |
@@ -711,9 +711,9 @@ case class WholeStageCodegenExec(child: SparkPlan)(val codegenStageId: Int)
 
     FilterFlag.value = hasFilterNode
     // scalastyle:off println
-    println(s"Does the query plan contain a filter operation? $hasFilterNode")
+    // println(s"Does the query plan contain a filter operation? $hasFilterNode")
     if (FilterFlag.value) {
-      println(s"FilterFlag was set")
+    //  println(s"FilterFlag was set")
     }
     // scalastyle:on println
 
