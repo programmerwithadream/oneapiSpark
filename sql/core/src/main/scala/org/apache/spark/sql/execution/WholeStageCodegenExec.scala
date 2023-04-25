@@ -709,12 +709,12 @@ case class WholeStageCodegenExec(child: SparkPlan)(val codegenStageId: Int)
     val hasFilterNode = hasFilterExec(child)
 
 
-    FilterFlag.value = hasFilterNode
+    // FilterFlag.value = hasFilterNode
     // scalastyle:off println
     // println(s"Does the query plan contain a filter operation? $hasFilterNode")
-    if (FilterFlag.value) {
+    // if (FilterFlag.value) {
     //  println(s"FilterFlag was set")
-    }
+    // }
     // scalastyle:on println
 
     val startTime = System.nanoTime()
@@ -770,6 +770,11 @@ case class WholeStageCodegenExec(child: SparkPlan)(val codegenStageId: Int)
     """.trim
 
     FilterFlag.value = false;
+
+    // scalastyle:off println
+     println(source)
+    // scalastyle:on println
+
 
     // try to compile, helpful for debug
     val cleanedSource = CodeFormatter.stripOverlappingComments(
