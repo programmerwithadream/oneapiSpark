@@ -6,6 +6,23 @@
 #include <sycl/ext/intel/fpga_extensions.hpp>
 #endif
 
+using namespace sycl;
+
+// Create an exception handler for asynchronous SYCL exceptions
+static auto exception_handler = [](sycl::exception_list e_list) {
+  for (std::exception_ptr const &e : e_list) {
+    try {
+      std::rethrow_exception(e);
+    }
+    catch (std::exception const &e) {
+#if _DEBUG
+      std::cout << "Failure" << std::endl;
+#endif
+      std::terminate();
+    }
+  }
+};
+
 JNIEXPORT jint JNICALL Java_org_apache_spark_JNI_JNIMethods_nativeMethod(JNIEnv *env, jobject obj, jint value) {
     std::cout << "Native method called with value " << value << std::endl;
 
@@ -45,7 +62,7 @@ JNIEXPORT jint JNICALL Java_org_apache_spark_JNI_JNIMethods_JNICompareDouble(JNI
 }
 
 
-JNIEXPORT jboolean[] JNICALL Java_org_apache_spark_JNI_JNIMethods_JNIOneapiCompareGreaterFloatArray(JNIEnv *env, jobject obj1, jfloat[] arr, jfloat jthreshold, jint localEnd, jint batchIdx) {
+JNIEXPORT jbooleanArray JNICALL Java_org_apache_spark_JNI_JNIMethods_JNIOneapiCompareGreaterFloatArray(JNIEnv *env, jobject obj1, jfloatArray arr, jfloat jthreshold, jint localEnd, jint batchIdx) {
 
     #if FPGA_EMULATOR
        // Intel extension: FPGA emulator selector on systems without FPGA card.
@@ -58,7 +75,7 @@ JNIEXPORT jboolean[] JNICALL Java_org_apache_spark_JNI_JNIMethods_JNIOneapiCompa
        auto d_selector{default_selector_v};
        #endif
 
-       jsize lengthA = env->GetArrayLength(ja);
+       jsize lengthA = env->GetArrayLength(arr);
 
        if (lengthA == 0) {
           return NULL;
@@ -75,9 +92,9 @@ JNIEXPORT jboolean[] JNICALL Java_org_apache_spark_JNI_JNIMethods_JNIOneapiCompa
        // Create arrays with "array_size" to store input and output data. Allocate
        // unified shared memory so that both CPU and device can access them.
        // std::cout << "malloc\n";
-       int *a =         malloc_shared<float>(lengthA, q);
-       int *threshold = malloc_shared<float>(1, q);
-       int *mask_arr =  malloc_shared<bool>(lengthA, q);
+       float *a =         malloc_shared<float>(lengthA, q);
+       float *threshold = malloc_shared<float>(1, q);
+       bool *mask_arr =  malloc_shared<bool>(lengthA, q);
 
 
        // std::cout << "check nullptr\n";
@@ -91,7 +108,7 @@ JNIEXPORT jboolean[] JNICALL Java_org_apache_spark_JNI_JNIMethods_JNIOneapiCompa
        // Initialize input arrays with values from 0 to array_size - 1
        // std::cout << "GetInt\n";
        jfloat o_a[lengthA];
-       env->GetFloatArrayRegion(ja, 0, lengthA, o_a);
+       env->GetFloatArrayRegion(arr, 0, lengthA, o_a);
 
        *threshold = static_cast<int>(jthreshold);
 
@@ -124,13 +141,14 @@ JNIEXPORT jboolean[] JNICALL Java_org_apache_spark_JNI_JNIMethods_JNIOneapiCompa
 
        // int ret_size = ret_vec.size();
        int ret_size = lengthA;
-       jint j_ret[ret_size];
+       jboolean j_ret[ret_size];
        for (int i=0; i<ret_size; i++) {
-          j_ret[i] = static_cast<jint>(mask_arr[i]);
+        //   j_ret[i] = static_cast<jboolean>(mask_arr[i]);
+          j_ret[i] = mask_arr[i];
        }
 
-       jfloatArray results = env->NewFloatArray(ret_size);
-       env->SetIntArrayRegion(results, 0, ret_size, j_ret);
+       jbooleanArray results = env->NewBooleanArray(ret_size);
+       env->SetBooleanArrayRegion(results, 0, ret_size, j_ret);
        // std::cout << "SetInt\n";
 
 
