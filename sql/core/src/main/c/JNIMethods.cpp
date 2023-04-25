@@ -33,12 +33,12 @@ JNIEXPORT jobject JNICALL Java_org_apache_spark_JNI_JNIMethods_returnInternalRow
     jclass cls = (env)->GetObjectClass(obj2);
 
     // Get the Method ID for method "callback", which takes no arg and return void
-    jmethodID midGetDouble = (env)->GetMethodID(cls, "getDouble", "(I)D");
-    if (NULL == midGetDouble) return obj2;
+    //jmethodID midGetDouble = (env)->GetMethodID(cls, "getDouble", "(I)D");
+    //if (NULL == midGetDouble) return obj2;
 
-    jdouble getDoubleResult = (env)->CallDoubleMethod(obj2, midGetDouble, 16);
+    //jdouble getDoubleResult = (env)->CallDoubleMethod(obj2, midGetDouble, 16);
 
-    std::cout << "total amount for this trip is: " << getDoubleResult << std::endl;
+    //std::cout << "total amount for this trip is: " << getDoubleResult << std::endl;
 
     return obj2;
 }
@@ -113,7 +113,7 @@ JNIEXPORT jbooleanArray JNICALL Java_org_apache_spark_JNI_JNIMethods_JNIOneapiCo
        *threshold = static_cast<int>(jthreshold);
 
        for (int i=0; i<localEnd; i++) {
-          a[i] = static_cast<int>(o_a[i]);
+          a[i] = static_cast<float>(o_a[i]);
        }
 
        // std::cout << "before parallel_for\n";
@@ -126,7 +126,7 @@ JNIEXPORT jbooleanArray JNICALL Java_org_apache_spark_JNI_JNIMethods_JNIOneapiCo
 //          } else {
 //             mask_arr[i] = 0;
 //          }
-            mask_arr[batchIdx + i] = a[batchIdx + i] > *threshold;
+            mask_arr[i] = a[batchIdx + i] > *threshold;
        });
        e.wait();
        // std::cout << "after parallel_for\n";
