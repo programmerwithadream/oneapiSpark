@@ -1,6 +1,6 @@
 #include <iostream>
 #include "org_apache_spark_JNI_JNIMethods.h"
-#include <sycl/sycl.hpp>
+#include <CL/sycl.hpp>
 
 #if FPGA || FPGA_EMULATOR
 #include <sycl/ext/intel/fpga_extensions.hpp>
@@ -75,11 +75,11 @@ JNIEXPORT jbooleanArray JNICALL Java_org_apache_spark_JNI_JNIMethods_JNIOneapiCo
        auto d_selector{default_selector_v};
        #endif
 
-       jsize lengthA = env->GetArrayLength(arr);
-
-       if (lengthA == 0) {
-          return NULL;
-       }
+//       jsize lengthA = env->GetArrayLength(arr);
+//
+//       if (lengthA == 0) {
+//          return NULL;
+//       }
 
 
        queue q(d_selector, exception_handler);
@@ -87,14 +87,14 @@ JNIEXPORT jbooleanArray JNICALL Java_org_apache_spark_JNI_JNIMethods_JNIOneapiCo
        // Print out the device information used for the kernel code.
        std::cout << "Running on device: "
                 << q.get_device().get_info<info::device::name>() << "\n";
-       std::cout << "Array size: " << lengthA << "\n";
+       std::cout << "Array size: " << localEnd << "\n";
 
        // Create arrays with "array_size" to store input and output data. Allocate
        // unified shared memory so that both CPU and device can access them.
        // std::cout << "malloc\n";
-       float *a =         malloc_shared<float>(lengthA, q);
+       float *a =         malloc_shared<float>(localEnd, q);
        float *threshold = malloc_shared<float>(1, q);
-       bool *mask_arr =  malloc_shared<bool>(lengthA, q);
+       bool *mask_arr =  malloc_shared<bool>(localEnd, q);
 
 
        // std::cout << "check nullptr\n";
@@ -107,17 +107,17 @@ JNIEXPORT jbooleanArray JNICALL Java_org_apache_spark_JNI_JNIMethods_JNIOneapiCo
 
        // Initialize input arrays with values from 0 to array_size - 1
        // std::cout << "GetInt\n";
-       jfloat o_a[lengthA];
-       env->GetFloatArrayRegion(arr, 0, lengthA, o_a);
+       jfloat o_a[localEnd];
+       env->GetFloatArrayRegion(arr, 0, localEnd, o_a);
 
        *threshold = static_cast<int>(jthreshold);
 
-       for (int i=0; i<lengthA; i++) {
+       for (int i=0; i<localEnd; i++) {
           a[i] = static_cast<int>(o_a[i]);
        }
 
        // std::cout << "before parallel_for\n";
-       auto e = q.parallel_for(range<1>(lengthA), [=](auto i){
+       auto e = q.parallel_for(range<1>(localEnd), [=](auto i){
           // mask_arr[i] = a[i] > *threshold;
 //          if (a[i] > *threshold) {
 //             mask_arr[i] = 1;
@@ -126,7 +126,7 @@ JNIEXPORT jbooleanArray JNICALL Java_org_apache_spark_JNI_JNIMethods_JNIOneapiCo
 //          } else {
 //             mask_arr[i] = 0;
 //          }
-            mask_arr[i] = a[i] > *threshold;
+            mask_arr[batchIdx + i] = a[batchIdx + i] > *threshold;
        });
        e.wait();
        // std::cout << "after parallel_for\n";
@@ -140,7 +140,7 @@ JNIEXPORT jbooleanArray JNICALL Java_org_apache_spark_JNI_JNIMethods_JNIOneapiCo
        // }
 
        // int ret_size = ret_vec.size();
-       int ret_size = lengthA;
+       int ret_size = localEnd;
        jboolean j_ret[ret_size];
        for (int i=0; i<ret_size; i++) {
         //   j_ret[i] = static_cast<jboolean>(mask_arr[i]);

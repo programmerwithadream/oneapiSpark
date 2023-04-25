@@ -15,7 +15,7 @@ public class JNIMethods {
 
     //pass two ints: columnartorow_localEnd_0, columnartorow_batchIdx_0
     // and an InternalRow: columnartorow_mutableStateArray_2
-    public native int[] JNIOneapiCompareGreaterFloatArray(float[] arr, float threshold, int localEnd, int batchIdx);
+    public native boolean[] JNIOneapiCompareGreaterFloatArray(float[] arr, float threshold, int localEnd, int batchIdx);
 
 
 }

@@ -42,9 +42,9 @@ JNIEXPORT jint JNICALL Java_org_apache_spark_JNI_JNIMethods_JNICompareDouble
 /*
  * Class:     org_apache_spark_JNI_JNIMethods
  * Method:    JNIOneapiCompareGreaterFloatArray
- * Signature: ([FFII)[I
+ * Signature: ([FFII)[Z
  */
-JNIEXPORT jintArray JNICALL Java_org_apache_spark_JNI_JNIMethods_JNIOneapiCompareGreaterFloatArray
+JNIEXPORT jbooleanArray JNICALL Java_org_apache_spark_JNI_JNIMethods_JNIOneapiCompareGreaterFloatArray
   (JNIEnv *, jobject, jfloatArray, jfloat, jint, jint);
 
 #ifdef __cplusplus

@@ -207,10 +207,14 @@ case class ColumnarToRowExec(child: SparkPlan) extends ColumnarToRowTransition w
      println(s"end of doproduce")
     // scalastyle:on println
 
+    System.loadLibrary("JNIMethods");
+
     val ret =
       s"""
          |//This is our hardcoded doproduce from columnartorowexec
          |System.out.println("doproduce from columnartorowexec is executed");
+         |org.apache.spark.JNI.JNIMethods jnim = new org.apache.spark.JNI.JNIMethods();
+         |
          |if (columnartorow_mutableStateArray_1[0] == null) {
          |  columnartorow_nextBatch_0();
          |}
@@ -218,41 +222,22 @@ case class ColumnarToRowExec(child: SparkPlan) extends ColumnarToRowTransition w
          |  int columnartorow_numRows_0 = columnartorow_mutableStateArray_1[0].numRows();
          |  int columnartorow_localEnd_0 = columnartorow_numRows_0 - columnartorow_batchIdx_0;
          |
+         |float[] arr = new float[columnartorow_localEnd_0];
+         |
+         |for (int i = 0; i < columnartorow_localEnd_0; i++) {
+         |  arr[i] = (float) (columnartorow_mutableStateArray_2[0].getDouble(columnartorow_rowIdx_0));
+         |}
+         |
          |  //enter c++
-         |  for (int columnartorow_localIdx_0 = 0; columnartorow_localIdx_0 <
-         |    columnartorow_localEnd_0; columnartorow_localIdx_0++) {
-         |    int columnartorow_rowIdx_0 = columnartorow_batchIdx_0 + columnartorow_localIdx_0;
-         |    do {
-         |
-         |boolean columnartorow_isNull_0 =
-         |  columnartorow_mutableStateArray_2[0].isNullAt(columnartorow_rowIdx_0);
-         |double columnartorow_value_0 =
-         |  columnartorow_isNull_0 ? -1.0 :
-         |  (columnartorow_mutableStateArray_2[0].getDouble(columnartorow_rowIdx_0));
-         |
-         |boolean filter_value_2 = !columnartorow_isNull_0;
-         |if (!filter_value_2) continue;
+         |bool[] result = jnim.JNIOneapiCompareGreaterFloatArray(arr, 20.0, columnartorow_localEnd_0, columnartorow_batchIdx_0);
          |
          |
-         |boolean filter_value_3 = false;
-         |filter_value_3 =
-         |  org.apache.spark.sql.catalyst.util.SQLOrderingUtil.compareDoubles(
-         |  columnartorow_value_0, 20.0D) > 0;
-         |if (!filter_value_3) continue;
-         |
-         |
-         |  ((org.apache.spark.sql.execution.metric.SQLMetric) references[2]).add(1);
-         |
-         |
-         |// common sub-expressions
-         |
-         |
-         | hashAgg_doConsume_0();
-         |
-         |
-         |} while(false);
-         |    // shouldStop check is eliminated
+         |  for (int i = 0; i < columnartorow_localEnd_0; i++) {
+         |  if (result[i]) {
+         |    ((org.apache.spark.sql.execution.metric.SQLMetric) references[2]).add(1);
+         |    hashAgg_doConsume_0();
          |  }
+         |}
          |  columnartorow_batchIdx_0 = columnartorow_numRows_0;
          |  columnartorow_mutableStateArray_1[0] = null;
          |  columnartorow_nextBatch_0();
