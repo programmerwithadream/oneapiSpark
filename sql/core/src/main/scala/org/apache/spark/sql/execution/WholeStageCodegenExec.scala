@@ -772,7 +772,7 @@ case class WholeStageCodegenExec(child: SparkPlan)(val codegenStageId: Int)
     FilterFlag.value = false;
 
     // scalastyle:off println
-     println(source)
+    // println(source)
     // scalastyle:on println
 
 
