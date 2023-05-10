@@ -238,7 +238,7 @@ case class ColumnarToRowExec(child: SparkPlan) extends ColumnarToRowTransition w
          |}
          |
          |  //enter c++
-         |boolean[] result = jnim.JNIOneapiCompareGreaterFloatArray(arr, (float) 1.5,
+         |boolean[] result = jnim.JNIOneapiCompareGreaterFloatArray(arr, (float) 20.0,
          |  columnartorow_localEnd_0, columnartorow_batchIdx_0);
          |
          |
