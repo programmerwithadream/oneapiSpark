@@ -235,7 +235,8 @@ case class ColumnarToRowExec(child: SparkPlan) extends ColumnarToRowTransition w
          |
          |  total_rows += columnartorow_numRows_0;
          |
-         |  System.arraycopy(columnartorow_mutableStateArray_2[0].getFloats(columnartorow_batchIdx_0, columnartorow_numRows_0), 0, arr, 4096 * i, columnartorow_numRows_0);
+         |  System.arraycopy(columnartorow_mutableStateArray_2[0].getFloats(columnartorow_batchIdx_0,
+         |    columnartorow_numRows_0), 0, arr, 4096 * i, columnartorow_numRows_0);
          |
          |  columnartorow_batchIdx_0 = columnartorow_numRows_0;
          |  columnartorow_mutableStateArray_1[0] = null;
@@ -254,7 +255,8 @@ case class ColumnarToRowExec(child: SparkPlan) extends ColumnarToRowTransition w
          |
          |//int num_batch = 0;
          |//int last_batch_size = 0;
-         |//while(hastNextBatch){arr[num_batch] = columnartorow_mutableStateArray_2[0].getAllFloat(); num_batch++;}
+         |//while(hastNextBatch){arr[num_batch] =
+         |//columnartorow_mutableStateArray_2[0].getAllFloat(); num_batch++;}
          |//last_batch_size = last_batch_size;
          |//for (int i = 0; i < columnartorow_localEnd_0; i++) {
          |//  arr[i] = (float) (columnartorow_mutableStateArray_2[0].getFloat(
