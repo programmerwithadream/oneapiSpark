@@ -240,10 +240,12 @@ case class ColumnarToRowExec(child: SparkPlan) extends ColumnarToRowTransition w
          |    4096 * i, columnartorow_numRows_0);
          |
          |    //temp test
-         |    int temp_agg = 0;
+         |    float[] temp_arr = columnartorow_mutableStateArray_2[0].getFloats(
+         |    columnartorow_batchIdx_0, columnartorow_numRows_0);
+         |    float temp_agg = 0;
          |    if (i == 0) {
          |      for (int j = 0; j < 40960; j++) {
-         |        temp_agg += arr[j];
+         |        temp_agg += temp_arr[j];
          |      }
          |    }
          |    System.out.println("temp_agg: " + temp_agg);
