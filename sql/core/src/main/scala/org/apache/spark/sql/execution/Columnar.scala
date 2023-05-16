@@ -220,38 +220,59 @@ case class ColumnarToRowExec(child: SparkPlan) extends ColumnarToRowTransition w
          |}
          |
          |while ( columnartorow_mutableStateArray_1[0] != null) {
-         |int columnartorow_numRows_0 = columnartorow_mutableStateArray_1[0].numRows();
          |
-         |//print test
-         |System.out.println(columnartorow_numRows_0);
          |
-         |int columnartorow_localEnd_0 = columnartorow_numRows_0 - columnartorow_batchIdx_0;
+         |int numBatch = 10;
+         |float[] arr = new float[numBatch * 4096];
+         |int total_rows = 0;
          |
-         |//print test
-         |System.out.println(columnartorow_localEnd_0);
+         |for (int i = 0; i < numBatch; i++) {
+         |  if (columnartorow_mutableStateArray_1[0] == null) {
+         |    break;
+         |  }
          |
-         |float[] arr = new float[columnartorow_localEnd_0];
+         |  int columnartorow_numRows_0 = columnartorow_mutableStateArray_1[0].numRows();
          |
-         |for (int i = 0; i < columnartorow_localEnd_0; i++) {
-         |  arr[i] = (float) (columnartorow_mutableStateArray_2[0].getFloat(
-         |    columnartorow_batchIdx_0 + i));
+         |  total_rows += columnartorow_numRows_0;
+         |
+         |  System.arraycopy(columnartorow_mutableStateArray_2[0].getFloats(columnartorow_batchIdx_0, columnartorow_numRows_0), 0, arr, 4096 * i, columnartorow_numRows_0);
+         |
+         |  columnartorow_batchIdx_0 = columnartorow_numRows_0;
+         |  columnartorow_mutableStateArray_1[0] = null;
+         |  columnartorow_nextBatch_0();
          |}
+         |
+         |//print test
+         |System.out.println(total_rows);
+         |
+         |//int columnartorow_localEnd_0 = columnartorow_numRows_0 - columnartorow_batchIdx_0;
+         |
+         |//print test
+         |//System.out.println(columnartorow_localEnd_0);
+         |
+         |//float[] arr = new float[columnartorow_localEnd_0];
+         |
+         |//int num_batch = 0;
+         |//int last_batch_size = 0;
+         |//while(hastNextBatch){arr[num_batch] = columnartorow_mutableStateArray_2[0].getAllFloat(); num_batch++;}
+         |//last_batch_size = last_batch_size;
+         |//for (int i = 0; i < columnartorow_localEnd_0; i++) {
+         |//  arr[i] = (float) (columnartorow_mutableStateArray_2[0].getFloat(
+         |//    columnartorow_batchIdx_0 + i));
+         |//}
          |
          |  //enter c++
          |boolean[] result = jnim.JNIOneapiCompareGreaterFloatArray(arr, (float) 20.0,
-         |  columnartorow_localEnd_0, columnartorow_batchIdx_0);
+         |  total_rows, 0);
          |
          |
-         |  for (int i = 0; i < columnartorow_localEnd_0; i++) {
+         |  for (int i = 0; i < total_rows; i++) {
          |  if (result[i]) {
          |    ((org.apache.spark.sql.execution.metric.SQLMetric) references[2]).add(1);
          |    hashAgg_doConsume_0();
          |  }
          |
          |}
-         |  columnartorow_batchIdx_0 = columnartorow_numRows_0;
-         |  columnartorow_mutableStateArray_1[0] = null;
-         |  columnartorow_nextBatch_0();
          |}
          |""".stripMargin
 
