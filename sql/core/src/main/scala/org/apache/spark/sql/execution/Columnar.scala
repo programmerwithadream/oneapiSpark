@@ -239,7 +239,23 @@ case class ColumnarToRowExec(child: SparkPlan) extends ColumnarToRowTransition w
          |    columnartorow_batchIdx_0, columnartorow_numRows_0), 0, arr,
          |    4096 * i, columnartorow_numRows_0);
          |
+         |    //temp test
+         |    int temp_agg = 0;
+         |    if (i == 0) {
+         |      for (int j = 0; j < 40960; j++) {
+         |        temp_agg += arr[j];
+         |      }
+         |    }
+         |    System.out.println("temp_agg: " + temp_agg);
+         |    //end temp test
+         |
          |  columnartorow_batchIdx_0 = columnartorow_numRows_0;
+         |
+         |
+         |//print test
+         |System.out.println("batchIdx: " + columnartorow_batchIdx_0);
+         |
+         |
          |  columnartorow_mutableStateArray_1[0] = null;
          |  columnartorow_nextBatch_0();
          |}
