@@ -445,7 +445,9 @@ public final class OnHeapColumnVector extends WritableColumnVector {
 
   public float[] getAllFloats() {
     assert(dictionary == null);
-    return floatData;
+    float [] ret = new float[floatData.length];
+    System.arraycopy(floatData, 0, ret, 0, floatData.length);
+    return ret;
   }
 
   //
