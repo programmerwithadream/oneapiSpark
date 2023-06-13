@@ -429,8 +429,10 @@ public final class OnHeapColumnVector extends WritableColumnVector {
   @Override
   public float getFloat(int rowId) {
     if (dictionary == null) {
+      System.out.println("null branch in get float was taken.");
       return floatData[rowId];
     } else {
+      System.out.println("not null branch in get float was taken.");
       return dictionary.decodeToFloat(dictionaryIds.getDictId(rowId));
     }
   }
@@ -447,6 +449,9 @@ public final class OnHeapColumnVector extends WritableColumnVector {
     assert(dictionary == null);
     float [] ret = new float[floatData.length];
     System.arraycopy(floatData, 0, ret, 0, floatData.length);
+    for (int i = 0; i < 3; i++) {
+      System.out.println(ret[i]);
+    }
     return ret;
   }
 
