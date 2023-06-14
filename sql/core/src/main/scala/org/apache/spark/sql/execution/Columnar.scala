@@ -237,7 +237,7 @@ case class ColumnarToRowExec(child: SparkPlan) extends ColumnarToRowTransition w
          |
          |  float[] temp_arr = new float[4096];
          |
-         |  temp_arr = columnartorow_mutableStateArray_2[0].getAllFloats();
+         |  //temp_arr = columnartorow_mutableStateArray_2[0].getAllFloats();
          |
          |  //print test
          |  for (int k = 0; k < 100; k++) {
@@ -247,7 +247,7 @@ case class ColumnarToRowExec(child: SparkPlan) extends ColumnarToRowTransition w
          |
          |  float[] temp_test_arr = new float[4096];
          |  for (int j = 0; j < columnartorow_numRows_0; j++) {
-         |    temp_test_arr[j] = columnartorow_mutableStateArray_2[0].getFloat(
+         |    temp_arr[j] = columnartorow_mutableStateArray_2[0].getFloat(
          |    columnartorow_batchIdx_0 + j);
          |  }
          |
@@ -302,8 +302,8 @@ case class ColumnarToRowExec(child: SparkPlan) extends ColumnarToRowTransition w
          |
          |  for (int i = 0; i < total_rows; i++) {
          |  if (result[i]) {
-         |    ((org.apache.spark.sql.execution.metric.SQLMetric) references[2]).add(1);
-         |    hashAgg_doConsume_0();
+         |    //((org.apache.spark.sql.execution.metric.SQLMetric) references[2]).add(1);
+         |    //hashAgg_doConsume_0();
          |  }
          |
          |}
