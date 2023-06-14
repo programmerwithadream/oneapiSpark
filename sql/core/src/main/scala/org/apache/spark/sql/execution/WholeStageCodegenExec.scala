@@ -194,7 +194,15 @@ trait CodegenSupport extends SparkPlan {
         && CodeGenerator.isValidParamLength(paramLength)) {
       constructDoConsumeFunction(ctx, inputVars, row)
     } else {
-      parent.doConsume(ctx, inputVars, rowVar)
+      val ret = parent.doConsume(ctx, inputVars, rowVar)
+
+
+      // scalastyle:off println
+      println(s"consume was called:")
+      println(ret)
+      // scalastyle:on println
+
+      ret
     }
 
     val ret = s"""
@@ -234,9 +242,16 @@ trait CodegenSupport extends SparkPlan {
          | }
        """.stripMargin)
 
-    s"""
+    val ret = s"""
        | $doConsumeFuncName(${args.mkString(", ")});
      """.stripMargin
+
+    // scalastyle:off println
+    println(s"constructDoConsumeFunction was called:")
+    println(ret)
+    // scalastyle:on println
+
+    ret
   }
 
   /**
