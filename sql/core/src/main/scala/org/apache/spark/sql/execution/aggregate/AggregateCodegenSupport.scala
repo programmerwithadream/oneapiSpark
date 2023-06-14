@@ -286,7 +286,16 @@ trait AggregateCodegenSupport
            |} while(false);
          """.stripMargin
       case (aggCode, _) =>
-        aggCode
+        val ret = aggCode
+
+
+          // scalastyle:off println
+           println(s"aggCode in generateEvalCodeforAggFunc was called: ")
+           println(ret)
+          // scalastyle:on println
+
+          ret
+
     }.mkString("\n")
   }
 
