@@ -303,7 +303,7 @@ case class ColumnarToRowExec(child: SparkPlan) extends ColumnarToRowTransition w
          |  for (int i = 0; i < total_rows; i++) {
          |  if (result[i]) {
          |    //((org.apache.spark.sql.execution.metric.SQLMetric) references[2]).add(1);
-         |    //hashAgg_doConsume_0();
+         |    hashAgg_doConsume_0();
          |  }
          |
          |}
