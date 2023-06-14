@@ -163,13 +163,27 @@ trait AggregateCodegenSupport
       if (needHashTable) {
         val aggTime = metricTerm(ctx, "aggTime")
         val beforeAgg = ctx.freshName("beforeAgg")
-        s"""
+        val ret = s"""
            |long $beforeAgg = System.nanoTime();
            |$doAggFuncName();
            |$aggTime.add((System.nanoTime() - $beforeAgg) / $NANOS_PER_MILLIS);
          """.stripMargin
+
+        // scalastyle:off println
+        println(s"needHashTable branch in doProduceWithoutKeys was called:")
+        println(ret)
+        // scalastyle:on println
+
+        ret
       } else {
-        s"$doAggFuncName();"
+        val ret = s"$doAggFuncName();"
+
+        // scalastyle:off println
+        println(s"not needHashTable branch in doProduceWithoutKeys was called:")
+        println(ret)
+        // scalastyle:on println
+
+        ret
       }
 
     s"""

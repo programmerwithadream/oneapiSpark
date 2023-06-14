@@ -196,11 +196,11 @@ trait CodegenSupport extends SparkPlan {
     } else {
       val ret = parent.doConsume(ctx, inputVars, rowVar)
 
-
-      // scalastyle:off println
-      println(s"consume was called:")
-      println(ret)
-      // scalastyle:on println
+//
+//      // scalastyle:off println
+//      println(s"consume was called:")
+//      println(ret)
+//      // scalastyle:on println
 
       ret
     }
@@ -246,10 +246,10 @@ trait CodegenSupport extends SparkPlan {
        | $doConsumeFuncName(${args.mkString(", ")});
      """.stripMargin
 
-    // scalastyle:off println
-    println(s"constructDoConsumeFunction was called:")
-    println(ret)
-    // scalastyle:on println
+//    // scalastyle:off println
+//    println(s"constructDoConsumeFunction was called:")
+//    println(ret)
+//    // scalastyle:on println
 
     ret
   }
