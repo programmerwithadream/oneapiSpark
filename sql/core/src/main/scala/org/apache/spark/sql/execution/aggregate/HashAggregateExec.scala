@@ -363,7 +363,7 @@ case class HashAggregateExec(
          |${consume(ctx, resultVars)}
        """.stripMargin
     }
-    ctx.addNewFunction(funcName,
+    val ret = ctx.addNewFunction(funcName,
       s"""
          |private void $funcName(UnsafeRow $keyTerm, UnsafeRow $bufferTerm)
          |    throws java.io.IOException {
@@ -371,6 +371,13 @@ case class HashAggregateExec(
          |  $body
          |}
        """.stripMargin)
+
+        // scalastyle:off println
+        println(s"generateResultFunction was called:")
+        println(ret)
+        // scalastyle:on println
+
+    ret
   }
 
   /**
