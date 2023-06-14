@@ -859,12 +859,19 @@ case class HashAggregateExec(
     // hash map will return null for new key), we spill the hash map to disk to free memory, then
     // continue to do in-memory aggregation and spilling until all the rows had been processed.
     // Finally, sort the spilled aggregate buffers by key, and merge them together for same key.
-    s"""
+    val ret = s"""
        |$declareRowBuffer
        |$findOrInsertHashMap
        |$incCounter
        |$updateRowInHashMap
      """.stripMargin
+
+        // scalastyle:off println
+        println(s"doconsumewithkeys in hashaggregateexec was called:")
+        println(ret)
+        // scalastyle:on println
+
+    ret
   }
 
   override def verboseString(maxFields: Int): String = toString(verbose = true, maxFields)
