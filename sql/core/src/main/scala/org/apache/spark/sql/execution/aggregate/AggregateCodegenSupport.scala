@@ -238,13 +238,13 @@ trait AggregateCodegenSupport
     val codeToEvalAggFuncs = generateEvalCodeForAggFuncs(
       ctx, input, inputAttrs, boundUpdateExprs, aggNames, aggCodeBlocks, subExprs)
 
-//    val ret = s"""
-//       |// do aggregate
-//       |// common sub-expressions
-//       |$effectiveCodes
-//       |// evaluate aggregate functions and update aggregation buffers
-//       |$codeToEvalAggFuncs
-//     """.stripMargin
+    /* val ret = */ s"""
+       |// do aggregate
+       |// common sub-expressions
+       |$effectiveCodes
+       |// evaluate aggregate functions and update aggregation buffers
+       |$codeToEvalAggFuncs
+     """.stripMargin
 //
 //    // scalastyle:off println
 //     println(s"doConsumeWithoutKeys was called: ")
