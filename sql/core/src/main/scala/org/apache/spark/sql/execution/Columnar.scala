@@ -240,10 +240,10 @@ case class ColumnarToRowExec(child: SparkPlan) extends ColumnarToRowTransition w
          |  //temp_arr = columnartorow_mutableStateArray_2[0].getAllFloats();
          |
          |  //print test
-         |  for (int k = 0; k < 100; k++) {
-         |    System.out.println(temp_arr[k]);
-         |  }
-         |  System.out.println("batchIdx: " + columnartorow_batchIdx_0);
+         |  // for (int k = 0; k < 100; k++) {
+         |  //   System.out.println(temp_arr[k]);
+         |  // }
+         |  // System.out.println("batchIdx: " + columnartorow_batchIdx_0);
          |
          |  float[] temp_test_arr = new float[4096];
          |  for (int j = 0; j < columnartorow_numRows_0; j++) {
@@ -261,14 +261,14 @@ case class ColumnarToRowExec(child: SparkPlan) extends ColumnarToRowTransition w
          |        temp_agg += temp_arr[j];
          |      }
          |    }
-         |    System.out.println("temp_agg: " + temp_agg);
+         |    // System.out.println("temp_agg: " + temp_agg);
          |    //end temp test
          |
          |  columnartorow_batchIdx_0 = columnartorow_numRows_0;
          |
          |
          |//print test
-         |System.out.println("batchIdx: " + columnartorow_batchIdx_0);
+         |// System.out.println("batchIdx: " + columnartorow_batchIdx_0);
          |
          |
          |  columnartorow_mutableStateArray_1[0] = null;
@@ -276,7 +276,7 @@ case class ColumnarToRowExec(child: SparkPlan) extends ColumnarToRowTransition w
          |}
          |
          |//print test
-         |System.out.println(total_rows);
+         |// System.out.println(total_rows);
          |
          |//int columnartorow_localEnd_0 = columnartorow_numRows_0 - columnartorow_batchIdx_0;
          |
