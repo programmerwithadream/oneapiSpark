@@ -245,13 +245,6 @@ trait AggregateCodegenSupport
        |// evaluate aggregate functions and update aggregation buffers
        |$codeToEvalAggFuncs
      """.stripMargin
-//
-//    // scalastyle:off println
-//     println(s"doConsumeWithoutKeys was called: ")
-//     println(ret)
-//    // scalastyle:on println
-//
-//    ret
   }
 
   /**
@@ -288,11 +281,6 @@ trait AggregateCodegenSupport
       case (aggCode, _) =>
         val ret = aggCode
 
-
-          // scalastyle:off println
-           println(s"aggCode in generateEvalCodeforAggFunc was called: ")
-           println(ret)
-          // scalastyle:on println
 
           ret
 

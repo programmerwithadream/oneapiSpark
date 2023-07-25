@@ -201,12 +201,6 @@ case class ColumnarToRowExec(child: SparkPlan) extends ColumnarToRowTransition w
        |}
      """.stripMargin
 
-    // scalastyle:off println
-    // println(s"A new doproduce is called in ColumnarToRowExec: ")
-    // println(temp)
-    // println(s"end of doproduce")
-    // scalastyle:on println
-
     System.loadLibrary("JNIMethods");
 
     val ret =
@@ -239,66 +233,22 @@ case class ColumnarToRowExec(child: SparkPlan) extends ColumnarToRowTransition w
          |
          |  //temp_arr = columnartorow_mutableStateArray_2[0].getAllFloats();
          |
-         |  //print test
-         |  // for (int k = 0; k < 100; k++) {
-         |  //   System.out.println(temp_arr[k]);
-         |  // }
-         |  // System.out.println("batchIdx: " + columnartorow_batchIdx_0);
-         |
-         |  float[] temp_test_arr = new float[4096];
          |  for (int j = 0; j < columnartorow_numRows_0; j++) {
-         |    temp_arr[j] = columnartorow_mutableStateArray_2[0].getFloat(
+         |    arr[4096 * i + j] = columnartorow_mutableStateArray_2[0].getFloat(
          |    columnartorow_batchIdx_0 + j);
          |  }
          |
-         |  System.arraycopy(temp_arr, 0, arr,
-         |    4096 * i, columnartorow_numRows_0);
-         |
-         |    //temp test
-         |    float temp_agg = 0;
-         |    if (i == 0) {
-         |      for (int j = 0; j < 4096; j++) {
-         |        temp_agg += temp_arr[j];
-         |      }
-         |    }
-         |    // System.out.println("temp_agg: " + temp_agg);
-         |    //end temp test
-         |
          |  columnartorow_batchIdx_0 = columnartorow_numRows_0;
-         |
-         |
-         |//print test
-         |// System.out.println("batchIdx: " + columnartorow_batchIdx_0);
-         |
          |
          |  columnartorow_mutableStateArray_1[0] = null;
          |  columnartorow_nextBatch_0();
          |}
          |
-         |//print test
-         |// System.out.println(total_rows);
-         |
          |//int columnartorow_localEnd_0 = columnartorow_numRows_0 - columnartorow_batchIdx_0;
          |
-         |//print test
-         |//System.out.println(columnartorow_localEnd_0);
-         |
-         |//float[] arr = new float[columnartorow_localEnd_0];
-         |
-         |//int num_batch = 0;
-         |//int last_batch_size = 0;
-         |//while(hastNextBatch) {arr[num_batch] =
-         |//columnartorow_mutableStateArray_2[0].getAllFloat(); num_batch++;}
-         |//last_batch_size = last_batch_size;
-         |//for (int i = 0; i < columnartorow_localEnd_0; i++) {
-         |//  arr[i] = (float) (columnartorow_mutableStateArray_2[0].getFloat(
-         |//    columnartorow_batchIdx_0 + i));
-         |//}
-         |
          |  //enter c++
-         |boolean[] result = jnim.JNIOneapiCompareGreaterFloatArray(arr, (float) 20.0,
+         |  boolean[] result = jnim.JNIOneapiCompareGreaterFloatArray(arr, (float) 20.0,
          |  total_rows, 0);
-         |
          |
          |  for (int i = 0; i < total_rows; i++) {
          |  if (result[i]) {

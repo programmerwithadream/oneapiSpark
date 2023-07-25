@@ -372,10 +372,6 @@ case class HashAggregateExec(
          |}
        """.stripMargin)
 
-        // scalastyle:off println
-        println(s"generateResultFunction was called:")
-        println(ret)
-        // scalastyle:on println
 
     ret
   }
@@ -865,11 +861,6 @@ case class HashAggregateExec(
        |$incCounter
        |$updateRowInHashMap
      """.stripMargin
-
-        // scalastyle:off println
-        println(s"doconsumewithkeys in hashaggregateexec was called:")
-        println(ret)
-        // scalastyle:on println
 
     ret
   }

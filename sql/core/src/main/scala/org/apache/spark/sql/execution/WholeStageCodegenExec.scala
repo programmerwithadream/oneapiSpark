@@ -196,12 +196,6 @@ trait CodegenSupport extends SparkPlan {
     } else {
       val ret = parent.doConsume(ctx, inputVars, rowVar)
 
-//
-//      // scalastyle:off println
-//      println(s"consume was called:")
-//      println(ret)
-//      // scalastyle:on println
-
       ret
     }
 
@@ -210,12 +204,6 @@ trait CodegenSupport extends SparkPlan {
        |$evaluated
        |$consumeFunc
      """.stripMargin
-
-    // scalastyle:off println
-    // println(s"A new consume is called in wholestagecodegen: ")
-    // println(ret)
-    // println(s"end of consume")
-    // scalastyle:on println
 
     return ret;
   }
@@ -245,11 +233,6 @@ trait CodegenSupport extends SparkPlan {
     val ret = s"""
        | $doConsumeFuncName(${args.mkString(", ")});
      """.stripMargin
-
-//    // scalastyle:off println
-//    println(s"constructDoConsumeFunction was called:")
-//    println(ret)
-//    // scalastyle:on println
 
     ret
   }
@@ -724,14 +707,6 @@ case class WholeStageCodegenExec(child: SparkPlan)(val codegenStageId: Int)
     val hasFilterNode = hasFilterExec(child)
 
 
-    // FilterFlag.value = hasFilterNode
-    // scalastyle:off println
-    // println(s"Does the query plan contain a filter operation? $hasFilterNode")
-    // if (FilterFlag.value) {
-    //  println(s"FilterFlag was set")
-    // }
-    // scalastyle:on println
-
     val startTime = System.nanoTime()
     val ctx = new CodegenContext
     val code = child.asInstanceOf[CodegenSupport].produce(ctx, this)
@@ -785,10 +760,6 @@ case class WholeStageCodegenExec(child: SparkPlan)(val codegenStageId: Int)
     """.trim
 
     FilterFlag.value = false;
-
-    // scalastyle:off println
-    // println(source)
-    // scalastyle:on println
 
 
     // try to compile, helpful for debug
