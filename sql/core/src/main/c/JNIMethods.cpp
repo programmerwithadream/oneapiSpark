@@ -85,9 +85,9 @@ JNIEXPORT jbooleanArray JNICALL Java_org_apache_spark_JNI_JNIMethods_JNIOneapiCo
        queue q(d_selector, exception_handler);
 
        // Print out the device information used for the kernel code.
-       std::cout << "Running on device: "
-                << q.get_device().get_info<info::device::name>() << "\n";
-       std::cout << "Array size: " << localEnd << "\n";
+//       std::cout << "Running on device: "
+//                << q.get_device().get_info<info::device::name>() << "\n";
+//       std::cout << "Array size: " << localEnd << "\n";
 
        // Create arrays with "array_size" to store input and output data. Allocate
        // unified shared memory so that both CPU and device can access them.
